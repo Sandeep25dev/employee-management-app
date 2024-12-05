@@ -1,4 +1,6 @@
-const Header = () => {
+import { LoggedUserDataTypes } from "../../types/userDataProps";
+
+const Header = ({ data }: { data: LoggedUserDataTypes }) => {
   return (
     <div className="flex items-end justify-between">
       <h1 className="text-2xl font-medium">
