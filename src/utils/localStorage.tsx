@@ -1,4 +1,4 @@
-const employees = [
+export const employees = [
   {
     id: 1,
     name: "John Doe",
@@ -10,7 +10,7 @@ const employees = [
         taskDescription: "Prepare the monthly performance report.",
         taskDate: "2024-12-05",
         category: "Reporting",
-        active: true,
+        active: false,
         newTask: true,
         completed: false,
         failed: false,
@@ -26,6 +26,12 @@ const employees = [
         failed: false,
       },
     ],
+    tasksCount: {
+      active: 1,
+      newTask: 1,
+      completed: 1,
+      failed: 0,
+    },
   },
   {
     id: 2,
@@ -64,6 +70,12 @@ const employees = [
         failed: true,
       },
     ],
+    tasksCount: {
+      active: 1,
+      newTask: 1,
+      completed: 1,
+      failed: 1,
+    },
   },
   {
     id: 3,
@@ -92,6 +104,12 @@ const employees = [
         failed: false,
       },
     ],
+    tasksCount: {
+      active: 1,
+      newTask: 1,
+      completed: 0,
+      failed: 0,
+    },
   },
   {
     id: 4,
@@ -120,6 +138,12 @@ const employees = [
         failed: false,
       },
     ],
+    tasksCount: {
+      active: 1,
+      newTask: 1,
+      completed: 1,
+      failed: 0,
+    },
   },
   {
     id: 5,
@@ -158,14 +182,20 @@ const employees = [
         failed: true,
       },
     ],
+    tasksCount: {
+      active: 1,
+      newTask: 1,
+      completed: 1,
+      failed: 1,
+    },
   },
 ];
 
-const admin = [
+export const admin = [
   {
     id: 1,
     name: "Admin User",
-    email: "admin@example.com",
+    email: "admin@me.com",
     password: "123",
   },
 ];

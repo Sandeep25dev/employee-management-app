@@ -1,4 +1,8 @@
 import { LoggedUserDataTypes } from "../../types/userDataProps";
+import AcceptTask from "./AcceptTask";
+import CompleteTask from "./CompleteTask";
+import FailedTask from "./FailedTask";
+import NewTask from "./NewTask";
 
 const TaskList = ({ data }: { data: LoggedUserDataTypes }) => {
   return (
@@ -6,37 +10,36 @@ const TaskList = ({ data }: { data: LoggedUserDataTypes }) => {
       id="tasklist"
       className="h-[55%] overflow-x-auto flex items-center justify-start gap-5 flex-nowrap w-full py-5 mt-10"
     >
-      {data.tasks?.map((task) => (
-        <div
-          key={task.taskTitle}
-          className={`flex-shrink-0 h-full w-[300px] p-5 ${getRandomTailwindColor()} rounded-xl`}
-        >
-          <div className="flex justify-between items-center">
-            <h3 className="bg-red-600 text-sm px-3 py-1 rounded">High</h3>
-            <h4 className="text-sm">{task.taskDate}</h4>
-          </div>
-          <h2 className="mt-5 text-2xl font-semibold">{task.taskTitle}</h2>
-          <p className="text-sm mt-2">{task.taskDescription}</p>
-        </div>
-      ))}
+      {data.tasks?.map((task) => {
+        if (task.active) {
+          return <AcceptTask key={generateRandomKey()} task={task} />;
+        }
+        if (task.newTask) {
+          return <NewTask key={generateRandomKey()} task={task} />;
+        }
+        if (task.completed) {
+          return <CompleteTask key={generateRandomKey()} task={task} />;
+        }
+        if (task.failed) {
+          return <FailedTask key={generateRandomKey()} task={task} />;
+        }
+      })}
     </div>
   );
 };
 
-function getRandomTailwindColor() {
-  const colors = [
-    "bg-red-500",
-    "bg-green-500",
-    "bg-blue-500",
-    "bg-purple-500",
-    "bg-yellow-600", // 'Saffron' is approximated as yellow-600 in Tailwind
-  ];
+const generateRandomKey = (): string => {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const keyLength = 10;
+  let result = "";
 
-  // Generate a random index
-  const randomIndex = Math.floor(Math.random() * colors.length);
+  for (let i = 0; i < keyLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
+  }
 
-  // Return the random color class
-  return colors[randomIndex];
-}
+  return result;
+};
 
 export default TaskList;

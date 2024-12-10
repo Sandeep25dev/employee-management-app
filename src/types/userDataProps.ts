@@ -1,46 +1,50 @@
 export type UserDataProps = {
-  employees: [
-    {
-      id: number;
-      email: string;
-      password: string;
-      tasks: [
+  employees: {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    tasks: TaskProps[];
+    tasksCount: {
+      active: number;
+      newTask: number;
+      completed: number;
+      failed: number;
+    };
+  }[]; // Array of employees (can have multiple employees)
+  admin:
+    | [
         {
-          taskTitle: string;
-          taskDescription: string;
-          taskDate: string;
-          category: string;
-          active: boolean;
-          newTask: boolean;
-          completed: boolean;
-          failed: boolean;
+          id: number;
+          name: string;
+          email: string;
+          password: string;
         }
-      ];
-    }
-  ];
-  admin: [
-    {
-      id: number;
-      email: string;
-      password: string;
-    }
-  ];
+      ]
+    | null;
 };
 
-export type LoggedUserDataTypes = {
+export interface LoggedUserDataTypes {
   id: number;
+  name: string;
   email: string;
   password: string;
-  tasks?: [
-    {
-      taskTitle: string;
-      taskDescription: string;
-      taskDate: string;
-      category: string;
-      active: boolean;
-      newTask: boolean;
-      completed: boolean;
-      failed: boolean;
-    }
-  ];
+  tasks?: TaskProps[]; // Change from [TaskProps] to TaskProps[]
+  tasksCount?: {
+    active: number;
+    newTask: number;
+    completed: number;
+    failed: number;
+  };
+}
+
+export type TaskProps = {
+  taskTitle: string;
+  taskDescription: string;
+  taskDate: string;
+  category: string;
+  active: boolean;
+  newTask: boolean;
+  completed: boolean;
+  failed: boolean;
 };

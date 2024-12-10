@@ -1,4 +1,9 @@
 import { createContext } from "react";
-import { UserDataProps } from "../types/userDataProps";
+import { TaskProps, UserDataProps } from "../types/userDataProps";
 
-export const AuthContext = createContext<null | UserDataProps>(null);
+interface AuthContextType {
+  userData: UserDataProps | null;
+  updateTask: (task: TaskProps, employeeName: string) => void;
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null);

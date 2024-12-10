@@ -9,35 +9,47 @@ import { LoggedUserDataTypes } from "./types/userDataProps";
 const App = () => {
   const [user, setUser] = useState<UserTypes | null>(null);
   const [loggedInUserData, setLoggedInUserData] =
-    useState<LoggedUserDataTypes | null>(null);
+    useState<null | LoggedUserDataTypes>(null);
 
-  const authData = useContext(AuthContext);
+  const { userData } = useContext(AuthContext) || {};
+
+  console.log(userData);
 
   useEffect(() => {
-    if (authData) {
+    if (userData) {
       const getLoggedInUser = localStorage.getItem("loggedInUser");
-      const loggedUser = getLoggedInUser ? JSON.parse(getLoggedInUser) : [];
-      if (loggedUser) {
-        // setUser(loggedUser.role);
+
+      if (getLoggedInUser) {
+        const loggedInUser = JSON.parse(getLoggedInUser);
+        setUser({ role: loggedInUser.role });
+        setLoggedInUserData(loggedInUser.data);
       }
     }
-  }, [authData]);
+  }, [userData]);
 
   const handleLogin = (email: string, password: string) => {
     if (email == "admin@me.com" && password == "123") {
-      setUser({ role: "admin" });
-      localStorage.setItem("loggedInUser", JSON.stringify({ role: "admin" }));
-    } else if (authData) {
-      const employee = authData?.employees.find(
+      const adminData = userData?.admin?.find(
         (e) => email == e.email && password == e.password
       );
-      console.log(employee);
+      if (adminData) {
+        setUser({ role: "admin" });
+        setLoggedInUserData(adminData);
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({ role: "admin", data: adminData })
+        );
+      }
+    } else if (userData) {
+      const employee = userData?.employees.find(
+        (e) => email == e.email && password == e.password
+      );
       if (employee) {
         setUser({ role: "employee" });
         setLoggedInUserData(employee);
         localStorage.setItem(
           "loggedInUser",
-          JSON.stringify({ role: "employee" })
+          JSON.stringify({ role: "employee", data: employee })
         );
       }
     } else {
@@ -47,10 +59,12 @@ const App = () => {
 
   return (
     <>
-      {!user ? <Login handleLogin={handleLogin} /> : ""}
-      {user?.role === "admin" && <AdminDashboard />}
-      {user?.role === "employee" && (
-        <EmployeeDashboard data={loggedInUserData} />
+      {!user && <Login handleLogin={handleLogin} />}
+      {user && user?.role === "admin" && (
+        <AdminDashboard changeUser={setUser} data={loggedInUserData} />
+      )}
+      {user && user?.role === "employee" && (
+        <EmployeeDashboard changeUser={setUser} data={loggedInUserData} />
       )}
     </>
   );
