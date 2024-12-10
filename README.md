@@ -1,5 +1,7 @@
 # Employee Management App
 
+### Live Link of the App: https://employee-management-sandeep-25-dev.netlify.app/
+
 ## NOTE: This app is still in development so you might face a few bugs which will be fixed soon and a lot of enhancements will be applied to this app too.
 
 ## Use Case:
